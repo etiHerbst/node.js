@@ -5,6 +5,7 @@ import coursesRouter from './coursesRoutes.js';
 import studentsRouter from './studentsRoutes.js';
 
 const app = express();
+app.use(express.json());
 const PORT = 3000;
 
 app.get('/', (req, res) => {
