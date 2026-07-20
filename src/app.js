@@ -1,13 +1,17 @@
 import express from 'express';
 import chalk from 'chalk';
 
-import coursesRouter from './coursesRoutes.js';
-import studentsRouter from './studentsRoutes.js';
+// ייבוא הנתבים מכל שכבת ה-Routes
+import coursesRouter from './routes/coursesRoutes.js';
+import studentsRouter from './routes/studentsRoutes.js';
+import enrollmentRouter from './routes/enrollmentRoutes.js';
 
 const app = express();
-app.use(express.json());
+app.use(express.json()); // תמיכה בקבלת JSON ב-req.body
+
 const PORT = 3000;
 
+// נתיב ראשי לבדיקת תקינות השרת
 app.get('/', (req, res) => {
     res.status(200).json({
         status: "success",
@@ -16,10 +20,12 @@ app.get('/', (req, res) => {
     });
 });
 
+// חיבור ה-Routers לנתיבים הראשיים
 app.use('/courses', coursesRouter);
 app.use('/students', studentsRouter);
+app.use('/enrollment', enrollmentRouter);
 
-// טיפול בנתיב לא קיים - מחזיר JSON תקני
+// טיפול בנתיב שאינו קיים (404)
 app.use((req, res) => {
     res.status(404).json({
         status: "error",
@@ -27,6 +33,7 @@ app.use((req, res) => {
     });
 });
 
+// הפעלת השרת
 app.listen(PORT, () => {
     console.log(chalk.bgGreen.black.bold(' SUCCESS ') + chalk.green(` השרת רץ ומאזין בכתובת: http://localhost:${PORT}`));
 });
