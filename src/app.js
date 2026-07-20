@@ -1,17 +1,25 @@
 import express from 'express';
 import chalk from 'chalk';
 
-// ייבוא הנתבים מכל שכבת ה-Routes
+// ייבוא ה-Middleware
+import { authMiddleware } from './middleware/authMiddleware.js';
+
+// ייבוא הנתבים
 import coursesRouter from './routes/coursesRoutes.js';
 import studentsRouter from './routes/studentsRoutes.js';
 import enrollmentRouter from './routes/enrollmentRoutes.js';
 
 const app = express();
-app.use(express.json()); // תמיכה בקבלת JSON ב-req.body
 
+// 1. הגדרת המשתנה PORT (היה חסר)
 const PORT = 3000;
 
-// נתיב ראשי לבדיקת תקינות השרת
+app.use(express.json());
+
+// 2. הפעלת ה-Middleware באופן גלובלי
+app.use(authMiddleware);
+
+// נתיב ראשי
 app.get('/', (req, res) => {
     res.status(200).json({
         status: "success",
@@ -20,7 +28,7 @@ app.get('/', (req, res) => {
     });
 });
 
-// חיבור ה-Routers לנתיבים הראשיים
+// חיבור ה-Routers
 app.use('/courses', coursesRouter);
 app.use('/students', studentsRouter);
 app.use('/enrollment', enrollmentRouter);
