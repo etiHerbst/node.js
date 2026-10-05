@@ -7,8 +7,8 @@ export const authMiddleware = (req, res, next) => {
     // הערה: Express המיר אוטומטית את שמות ה-Headers לאותיות קטנות (lowercase)
     const authKey = req.headers['auth-key'];
 
-    // 3. הגדרת המפתח שנקבע לאימות (ניתן לשנות לכל ערך שתרצי)
-    const SECRET_KEY = "mySecretKey123";
+    // 3. הגדרת המפתח הסודי ממשתנה הסביבה (הגדר בקובץ .env)
+    const SECRET_KEY = process.env.SECRET_KEY;
 
     // 4. בדיקה האם ה-header קיים והאם הערך שלו תואם
     if (!authKey || authKey !== SECRET_KEY) {

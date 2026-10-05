@@ -1,5 +1,8 @@
+import dotenv from 'dotenv';
 import express from 'express';
 import chalk from 'chalk';
+
+dotenv.config();
 
 // ייבוא ה-Middleware
 import { authMiddleware } from './middleware/authMiddleware.js';
@@ -11,8 +14,8 @@ import enrollmentRouter from './routes/enrollmentRoutes.js';
 
 const app = express();
 
-// 1. הגדרת המשתנה PORT (היה חסר)
-const PORT = 3000;
+// 1. הגדרת משתנה הסביבה PORT (ברירת מחדל 3000 אם לא הוגדר)
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
